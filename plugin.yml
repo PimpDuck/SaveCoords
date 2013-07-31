@@ -1,0 +1,6 @@
+name: SaveCoords
+main: me.PimpDuck.SaveCoords.SaveCoords
+version: 1.0
+commands:
+  savecoords:
+    
