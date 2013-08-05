@@ -2,25 +2,20 @@ package me.PimpDuck.SaveCoords;
 
 import java.util.logging.Logger;
 
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
+
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class SaveCoords extends JavaPlugin{
 
   Logger log = Logger.getLogger("Minecraft");
 
-	  private CommandClass commandclass;
-	  
+  private CommandClass commandclass;
+  
 	@Override
 	public void onEnable() {
 		log.info("[SaveCoords] Version 1.0 has been enabled!");
        saveConfig();
-		commandclass = new CommandClass();
+       commandclass = new CommandClass();
 	    getCommand("savecoords").setExecutor(commandclass);
 	}
 	@Override
