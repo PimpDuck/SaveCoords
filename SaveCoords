@@ -38,7 +38,7 @@ public class SaveCoords extends JavaPlugin{
  
                         if(args.length == 0) {
                                 if(player.hasPermission("savecoords.info") || player.hasPermission("savecoords.*")){
-                                player.sendMessage(ChatColor.DARK_BLUE + "[SaveCoords] " + ChatColor.GREEN + "Usage: /savecoords save (name) - saves coords. /savecoords show coords to show your current coords. /savecoords show (name) - Shows the coords of the name you specified.");
+                                player.sendMessage(ChatColor.DARK_BLUE + "[SaveCoords] " + ChatColor.GREEN + "Usage: /savecoords save (name) - saves coords. /savecoords currentcoords to show your current coords. /savecoords show (name) - Shows the coords of the name you specified.");
                                 }else {
                                         player.sendMessage(ChatColor.DARK_BLUE + "[SaveCoords] " + ChatColor.DARK_RED + "You don't have permission to see this!");
                                 }
@@ -67,24 +67,34 @@ public class SaveCoords extends JavaPlugin{
                                 if(args[0].equalsIgnoreCase("show")){
                                 	if(args.length == 1){
                                 		if(player.hasPermission("savecoords.show") || player.hasPermission("savecoords.show.coords") || player.hasPermission("savecoords.*")){
-                                			player.sendMessage(ChatColor.DARK_BLUE + "[SaveCoords] " + ChatColor.GREEN + "Usage: /savecoords show coords - shows your current coords /savecoords show (name) - Shows coords you've saved under that name.");
+                                			player.sendMessage(ChatColor.DARK_BLUE + "[SaveCoords] " + ChatColor.GREEN + "Usage: /savecoords show (name) - Shows coords you've saved under that name.");
                                 		}else {
                                 			player.sendMessage(ChatColor.DARK_BLUE + "[SaveCoords] " + ChatColor.DARK_RED + "You don't have permission to see this!");
                                 		}
-                                	}else {
-                                		if(args[1].equalsIgnoreCase("coords")){
-                                			if(player.hasPermission("savecoords.show.coords")){
-                                				   Location playerLoc = player.getLocation();
-                                				    player.sendMessage(ChatColor.DARK_RED + "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-                                				    player.sendMessage(ChatColor.DARK_BLUE + "[SaveCoords] " + ChatColor.GREEN + "Your X Coordinates : " + ChatColor.GOLD + playerLoc.getX());
-                                				    player.sendMessage(ChatColor.DARK_BLUE + "[SaveCoords] " + ChatColor.GREEN + "Your Y Coordinates : " + ChatColor.GOLD + playerLoc.getY());
-                                				    player.sendMessage(ChatColor.DARK_BLUE + "[SaveCoords] " + ChatColor.GREEN + "Your Z Coordinates : " + ChatColor.GOLD + playerLoc.getZ());
-                                				    player.sendMessage(ChatColor.DARK_RED + "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-                                			}
-                                		}
+                                	}else{
+                            			if(player.hasPermission("savecoords.show.savedcoords") || player.hasPermission("savecoords.*")){
+                                            Location location = player.getLocation();
+                                            player.sendMessage(ChatColor.DARK_BLUE + "[SaveCoords] " + ChatColor.GREEN + "The coords for " + args[1] + " are: ");
+                                            player.sendMessage(ChatColor.GREEN + "X: " + Math.round(location.getX()) + " Y: " + Math.round(location.getY()) + " Z: " + Math.round(location.getZ()));
+                            				getConfig().get("Players." + player.getName() + "." + args[1] + ".X", Long.valueOf(Math.round(location.getX())));
+                                            getConfig().get("Players." + player.getName() + "." + args[1] + ".Y", Long.valueOf(Math.round(location.getY())));
+                                            getConfig().get("Players." + player.getName() + "." + args[1] + ".Z", Long.valueOf(Math.round(location.getZ())));
+                                            saveConfig();
+                            			}
                                 	}
-                                }
-                        }
-                        return false;
+                                }else {
+                        		if(args[0].equalsIgnoreCase("currentcoords") || args[0].equalsIgnoreCase("cc")){
+                        			if(player.hasPermission("savecoords.currentcoords") || player.hasPermission("savecoords.*")){
+                        				   Location playerLoc = player.getLocation();
+                        				    player.sendMessage(ChatColor.DARK_RED + "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+                        				    player.sendMessage(ChatColor.DARK_BLUE + "[SaveCoords] " + ChatColor.GREEN + "Your X Coordinates : " + ChatColor.GOLD + Long.valueOf(Math.round(playerLoc.getX())));
+                        				    player.sendMessage(ChatColor.DARK_BLUE + "[SaveCoords] " + ChatColor.GREEN + "Your Y Coordinates : " + ChatColor.GOLD + Long.valueOf(Math.round(playerLoc.getY())));
+                        				    player.sendMessage(ChatColor.DARK_BLUE + "[SaveCoords] " + ChatColor.GREEN + "Your Z Coordinates : " + ChatColor.GOLD + Long.valueOf(Math.round(playerLoc.getZ())));
+                        				    player.sendMessage(ChatColor.DARK_RED + "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+                        			}
+                        		}
+                        		}
                     }
+						return false;
+}
 }
